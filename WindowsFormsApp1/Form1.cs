@@ -21,11 +21,11 @@ namespace WindowsFormsApp1
         {
             if (toggleButton2.Checked)
             {
-                this.BackColor = Color.WhiteSmoke;
+                this.BackColor = SystemColors.Control;                
             }
             else
             {
-                this.BackColor = Color.Black;
+                this.BackColor = SystemColors.Desktop;
             }
         }
     }

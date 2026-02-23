@@ -72,6 +72,8 @@
             // 
             // toggleButton3
             // 
+            this.toggleButton3.Checked = true;
+            this.toggleButton3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toggleButton3.DisableBackColor = System.Drawing.Color.DarkGray;
             this.toggleButton3.DisableToggleColor = System.Drawing.Color.LightGray;
             this.toggleButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -81,7 +83,7 @@
             this.toggleButton3.Name = "toggleButton3";
             this.toggleButton3.OffBackColor = System.Drawing.Color.IndianRed;
             this.toggleButton3.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.toggleButton3.OnBackColor = System.Drawing.Color.MediumOrchid;
+            this.toggleButton3.OnBackColor = System.Drawing.Color.Orange;
             this.toggleButton3.OnToggleColor = System.Drawing.Color.WhiteSmoke;
             this.toggleButton3.Size = new System.Drawing.Size(142, 22);
             this.toggleButton3.TabIndex = 2;
@@ -91,6 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.toggleButton3);
             this.Controls.Add(this.toggleButton2);
