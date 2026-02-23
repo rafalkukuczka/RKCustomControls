@@ -17,13 +17,12 @@ namespace RKCustomControls.Designers
         public override void Initialize(IComponent component)
         {
         
-
             base.Initialize(component);
 
             Debug.WriteLine("ToggleButtonDesigner initialized.");
 
 #if DEBUG
-            if (!Debugger.IsAttached)
+            if (Debugger.IsAttached)
                 Debugger.Break();
 #endif
 
@@ -49,8 +48,6 @@ namespace RKCustomControls.Designers
 
         private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
         {
-            Debugger.Launch();
-
             if (e.Member?.Name == nameof(Control.Enabled))
             {
                 Control?.Invalidate(); 
