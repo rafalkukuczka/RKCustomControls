@@ -17,9 +17,16 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        private void toggleButton1_CheckedChanged(object sender, EventArgs e)
+        private void toggleButton2_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (toggleButton2.Checked)
+            {
+                this.BackColor = Color.WhiteSmoke;
+            }
+            else
+            {
+                this.BackColor = Color.Black;
+            }
         }
     }
 }
