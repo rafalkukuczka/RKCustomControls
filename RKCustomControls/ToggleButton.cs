@@ -15,6 +15,7 @@ namespace RKCustomControls
     [Designer("RKCustomControls.Designers.ToggleButtonDesigner, RKCustomControls.Designers")]
     public class ToggleButton : CheckBox, ISupportInitialize
     {
+        //Fields
         private Color onBackColor = Color.MediumSlateBlue;
         private Color onToggleColor = Color.WhiteSmoke;
         private Color offBackColor = Color.Gray;
@@ -22,6 +23,7 @@ namespace RKCustomControls
         private Color disableBackColor = Color.DarkGray;
         private Color disableToggleColor = Color.LightGray;
 
+        //ctors
         public ToggleButton()
         {
             this.MinimumSize = new Size(45, 22);
@@ -32,6 +34,7 @@ namespace RKCustomControls
                   ControlStyles.OptimizedDoubleBuffer, true);
         }
 
+        //props
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color OnBackColor { get { return onBackColor; } set { onBackColor = value; Invalidate(); } }
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -47,10 +50,29 @@ namespace RKCustomControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color DisableToggleColor { get => disableToggleColor; set => disableToggleColor = value; }
 
+        //props to be desibled in designer
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text { get => base.Text; set { } }
-        
+        public new string Text { get => base.Text; private set { } }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ContentAlignment TextAlign { get => base.TextAlign; private set { } }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new TextImageRelation TextImageRelation { get => base.TextImageRelation; private set { } }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new FlatStyle FlatStyle { get => base.FlatStyle; private set { } }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new FlatButtonAppearance FlatAppearance { get => base.FlatAppearance; private set { } }
+
+
+        //Interfaces
         public void BeginInit()
         {
 
@@ -59,6 +81,30 @@ namespace RKCustomControls
         public void EndInit()
         {
             Invalidate();
+        }
+
+
+        //Overrides
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            if (this.DesignMode)
+            {
+                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                if (changeService != null)
+                {
+                    changeService.ComponentChanged -= OnComponentChanged; // Unikamy duplikacji
+                    changeService.ComponentChanged += OnComponentChanged;
+                }
+            }
+        }
+
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
+        {
+            if (e.Component == this && e.Member?.Name == "Enabled")
+            {
+                this.Invalidate();
+            }
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
@@ -121,6 +167,8 @@ namespace RKCustomControls
             }
         }
 
+        //Utils
+
         private void DrawDisabledStateChecked(PaintEventArgs pevent, int toggleSize)
         {
             pevent.Graphics.FillPath(new SolidBrush(disableBackColor), GetFigure());
@@ -145,27 +193,7 @@ namespace RKCustomControls
             pevent.Graphics.FillEllipse(new SolidBrush(onToggleColor), new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize));
         }
 
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-            if (this.DesignMode)
-            {
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-                if (changeService != null)
-                {
-                    changeService.ComponentChanged -= OnComponentChanged; // Unikamy duplikacji
-                    changeService.ComponentChanged += OnComponentChanged;
-                }
-            }
-        }
-
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            if (e.Component == this && e.Member?.Name == "Enabled")
-            {
-                this.Invalidate();
-            }
-        }
+        
 
         private GraphicsPath GetFigure()
         {
