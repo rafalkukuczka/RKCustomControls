@@ -15,6 +15,7 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void toggleButton2_CheckedChanged(object sender, EventArgs e)

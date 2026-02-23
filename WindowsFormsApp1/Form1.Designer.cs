@@ -28,30 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.toggleButton1 = new RKCustomControls.ToggleButton();
-            this.toggleButton2 = new RKCustomControls.ToggleButton();
             this.toggleButton3 = new RKCustomControls.ToggleButton();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleButton1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleButton2)).BeginInit();
+            this.toggleButton2 = new RKCustomControls.ToggleButton();
+            this.toggleButton1 = new RKCustomControls.ToggleButton();
             ((System.ComponentModel.ISupportInitialize)(this.toggleButton3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toggleButton2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toggleButton1)).BeginInit();
             this.SuspendLayout();
             // 
-            // toggleButton1
+            // toggleButton3
             // 
-            this.toggleButton1.DisableBackColor = System.Drawing.Color.DarkGray;
-            this.toggleButton1.DisableToggleColor = System.Drawing.Color.LightGray;
-            this.toggleButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.toggleButton1.Location = new System.Drawing.Point(268, 120);
-            this.toggleButton1.MaximumSize = new System.Drawing.Size(1000, 22);
-            this.toggleButton1.MinimumSize = new System.Drawing.Size(45, 22);
-            this.toggleButton1.Name = "toggleButton1";
-            this.toggleButton1.OffBackColor = System.Drawing.Color.Gray;
-            this.toggleButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.toggleButton1.OnBackColor = System.Drawing.Color.MediumSlateBlue;
-            this.toggleButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.toggleButton1.Size = new System.Drawing.Size(142, 22);
-            this.toggleButton1.TabIndex = 0;
-            this.toggleButton1.UseVisualStyleBackColor = true;
+            this.toggleButton3.Checked = true;
+            this.toggleButton3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toggleButton3.DisableBackColor = System.Drawing.Color.DarkGray;
+            this.toggleButton3.DisableToggleColor = System.Drawing.Color.LightGray;
+            this.toggleButton3.Location = new System.Drawing.Point(268, 148);
+            this.toggleButton3.MaximumSize = new System.Drawing.Size(1000, 22);
+            this.toggleButton3.MinimumSize = new System.Drawing.Size(45, 22);
+            this.toggleButton3.Name = "toggleButton3";
+            this.toggleButton3.OffBackColor = System.Drawing.Color.IndianRed;
+            this.toggleButton3.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.toggleButton3.OnBackColor = System.Drawing.Color.Orange;
+            this.toggleButton3.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.toggleButton3.Size = new System.Drawing.Size(142, 22);
+            this.toggleButton3.TabIndex = 2;
+            this.toggleButton3.UseVisualStyleBackColor = true;
             // 
             // toggleButton2
             // 
@@ -70,24 +71,21 @@
             this.toggleButton2.TabIndex = 1;
             this.toggleButton2.CheckedChanged += new System.EventHandler(this.toggleButton2_CheckedChanged);
             // 
-            // toggleButton3
+            // toggleButton1
             // 
-            this.toggleButton3.Checked = true;
-            this.toggleButton3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toggleButton3.DisableBackColor = System.Drawing.Color.DarkGray;
-            this.toggleButton3.DisableToggleColor = System.Drawing.Color.LightGray;
-            this.toggleButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.toggleButton3.Location = new System.Drawing.Point(268, 148);
-            this.toggleButton3.MaximumSize = new System.Drawing.Size(1000, 22);
-            this.toggleButton3.MinimumSize = new System.Drawing.Size(45, 22);
-            this.toggleButton3.Name = "toggleButton3";
-            this.toggleButton3.OffBackColor = System.Drawing.Color.IndianRed;
-            this.toggleButton3.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.toggleButton3.OnBackColor = System.Drawing.Color.Orange;
-            this.toggleButton3.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.toggleButton3.Size = new System.Drawing.Size(142, 22);
-            this.toggleButton3.TabIndex = 2;
-            this.toggleButton3.UseVisualStyleBackColor = true;
+            this.toggleButton1.DisableBackColor = System.Drawing.Color.DarkGray;
+            this.toggleButton1.DisableToggleColor = System.Drawing.Color.LightGray;
+            this.toggleButton1.Location = new System.Drawing.Point(268, 120);
+            this.toggleButton1.MaximumSize = new System.Drawing.Size(1000, 22);
+            this.toggleButton1.MinimumSize = new System.Drawing.Size(45, 22);
+            this.toggleButton1.Name = "toggleButton1";
+            this.toggleButton1.OffBackColor = System.Drawing.Color.Gray;
+            this.toggleButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.toggleButton1.OnBackColor = System.Drawing.Color.MediumSlateBlue;
+            this.toggleButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.toggleButton1.Size = new System.Drawing.Size(142, 22);
+            this.toggleButton1.TabIndex = 0;
+            this.toggleButton1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -100,9 +98,9 @@
             this.Controls.Add(this.toggleButton1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.toggleButton1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toggleButton2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleButton3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toggleButton2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.toggleButton1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
