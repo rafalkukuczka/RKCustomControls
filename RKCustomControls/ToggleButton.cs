@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace RKCustomControls
@@ -27,7 +24,7 @@ namespace RKCustomControls
         public ToggleButton()
         {
             this.MinimumSize = new Size(45, 22);
-            this.MaximumSize = new Size(1000, 22);
+            this.MaximumSize = new Size(1000, 44);
 
             this.SetStyle(ControlStyles.UserPaint |
                   ControlStyles.AllPaintingInWmPaint |
@@ -65,7 +62,7 @@ namespace RKCustomControls
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new FlatStyle FlatStyle { get => base.FlatStyle; private set { } }
+        public new FlatStyle FlatStyle { get => base.FlatStyle; private set { base.FlatStyle = value; } }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -110,6 +107,10 @@ namespace RKCustomControls
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         protected override void OnPaint(PaintEventArgs pevent)
         {
+#if DEBUG
+            LogGdi("OnPaint-BEGIN");
+#endif
+
             int toggleSize = this.Height - 5;
             pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             pevent.Graphics.Clear(this.Parent.BackColor);
@@ -165,42 +166,63 @@ namespace RKCustomControls
                     }
                 }
             }
+
+#if DEBUG
+            LogGdi("OnPaint-END");
+#endif
         }
 
         //Utils
 
         private void DrawDisabledStateChecked(PaintEventArgs pevent, int toggleSize)
         {
-            pevent.Graphics.FillPath(new SolidBrush(disableBackColor), GetFigure());
-            pevent.Graphics.FillEllipse(new SolidBrush(disableToggleColor), new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize));
+            using (var disabledToggleBrush = new SolidBrush(disableToggleColor))
+            using (var disabledBackBrush = new SolidBrush(disableBackColor))
+            using (var backgroundPath = GetBackground())
+            {
+                pevent.Graphics.FillPath(disabledBackBrush, backgroundPath);
+                pevent.Graphics.FillEllipse(disabledToggleBrush, new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize)); 
+            }
         }
 
         private void DrawDisabledStateUnchecked(PaintEventArgs pevent, int toggleSize)
         {
-            pevent.Graphics.FillPath(new SolidBrush(disableBackColor), GetFigure());
-            pevent.Graphics.FillEllipse(new SolidBrush(disableToggleColor), new RectangleF(2, 2, toggleSize, toggleSize));
+            using (var disabledBackBrush = new SolidBrush(disableBackColor))
+            using (var disabledToggleBrush = new SolidBrush(disableToggleColor))
+            using (var backgroundPath = GetBackground())
+            {
+                pevent.Graphics.FillPath(disabledBackBrush, backgroundPath);
+                pevent.Graphics.FillEllipse(disabledToggleBrush, new RectangleF(2, 2, toggleSize, toggleSize));
+            }
         }
 
         private void DrawUncheckedState(PaintEventArgs pevent, int toggleSize)
         {
-            pevent.Graphics.FillPath(new SolidBrush(offBackColor), GetFigure());
-            pevent.Graphics.FillEllipse(new SolidBrush(offToggleColor), new RectangleF(2, 2, toggleSize, toggleSize));
+            using (var offBackBrush = new SolidBrush(offBackColor))
+            using (var offToggleBrush = new SolidBrush(offToggleColor))
+            using (var backgroundPath = GetBackground())
+            {
+                pevent.Graphics.FillPath(offBackBrush, backgroundPath);
+                pevent.Graphics.FillEllipse(offToggleBrush, new RectangleF(2, 2, toggleSize, toggleSize));
+            }
         }
 
         private void DrawCheckedState(PaintEventArgs pevent, int toggleSize)
         {
-            pevent.Graphics.FillPath(new SolidBrush(onBackColor), GetFigure());
-            pevent.Graphics.FillEllipse(new SolidBrush(onToggleColor), new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize));
+            using (var onBackBrush = new SolidBrush(onBackColor))
+            using (var onToggleBrush = new SolidBrush(onToggleColor))
+            using (var backgroundPath = GetBackground())
+            {
+                pevent.Graphics.FillPath(onBackBrush, backgroundPath);
+                pevent.Graphics.FillEllipse(onToggleBrush, new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize));
+            }
         }
 
-        
-
-        private GraphicsPath GetFigure()
+        private GraphicsPath GetBackground()
         {
             var archSize = this.Height - 1;
             var rectLeft = new Rectangle(0, 0, archSize, archSize);
             var rectRight = new Rectangle(this.Width - archSize - 2, 0, archSize, archSize);
-
 
             var path = new GraphicsPath();
             path.StartFigure();
@@ -212,5 +234,16 @@ namespace RKCustomControls
 
             return path;
         }
+
+#if DEBUG
+        [DllImport("user32.dll")]
+        static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
+
+        void LogGdi(string tag)
+        {
+            int gdi = GetGuiResources(Process.GetCurrentProcess().Handle, 0);
+            Debug.WriteLine($"{tag}: GDI={gdi}");
+        }
     }
+#endif
 }
