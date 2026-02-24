@@ -42,7 +42,8 @@
             this.toggleButton3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toggleButton3.DisableBackColor = System.Drawing.Color.DarkGray;
             this.toggleButton3.DisableToggleColor = System.Drawing.Color.LightGray;
-            this.toggleButton3.Location = new System.Drawing.Point(268, 148);
+            this.toggleButton3.Enabled = false;
+            this.toggleButton3.Location = new System.Drawing.Point(283, 166);
             this.toggleButton3.MaximumSize = new System.Drawing.Size(1000, 22);
             this.toggleButton3.MinimumSize = new System.Drawing.Size(45, 22);
             this.toggleButton3.Name = "toggleButton3";
@@ -50,16 +51,17 @@
             this.toggleButton3.OffToggleColor = System.Drawing.Color.Gainsboro;
             this.toggleButton3.OnBackColor = System.Drawing.Color.Orange;
             this.toggleButton3.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.toggleButton3.Size = new System.Drawing.Size(142, 22);
+            this.toggleButton3.Size = new System.Drawing.Size(149, 22);
             this.toggleButton3.TabIndex = 2;
             this.toggleButton3.UseVisualStyleBackColor = true;
+            this.toggleButton3.CheckedChanged += new System.EventHandler(this.toggleButton3_CheckedChanged);
             // 
             // toggleButton2
             // 
             this.toggleButton2.AutoSize = true;
             this.toggleButton2.DisableBackColor = System.Drawing.Color.DarkGray;
             this.toggleButton2.DisableToggleColor = System.Drawing.Color.LightGray;
-            this.toggleButton2.Location = new System.Drawing.Point(12, 12);
+            this.toggleButton2.Location = new System.Drawing.Point(24, 25);
             this.toggleButton2.MaximumSize = new System.Drawing.Size(1000, 22);
             this.toggleButton2.MinimumSize = new System.Drawing.Size(45, 22);
             this.toggleButton2.Name = "toggleButton2";
@@ -75,7 +77,7 @@
             // 
             this.toggleButton1.DisableBackColor = System.Drawing.Color.DarkGray;
             this.toggleButton1.DisableToggleColor = System.Drawing.Color.LightGray;
-            this.toggleButton1.Location = new System.Drawing.Point(268, 120);
+            this.toggleButton1.Location = new System.Drawing.Point(283, 125);
             this.toggleButton1.MaximumSize = new System.Drawing.Size(1000, 22);
             this.toggleButton1.MinimumSize = new System.Drawing.Size(45, 22);
             this.toggleButton1.Name = "toggleButton1";
@@ -92,7 +94,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(673, 615);
             this.Controls.Add(this.toggleButton3);
             this.Controls.Add(this.toggleButton2);
             this.Controls.Add(this.toggleButton1);

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
@@ -15,19 +9,29 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
-            
+
         }
 
         private void toggleButton2_CheckedChanged(object sender, EventArgs e)
         {
             if (toggleButton2.Checked)
             {
-                this.BackColor = SystemColors.Control;                
+                this.BackColor = SystemColors.Control;
             }
             else
             {
                 this.BackColor = SystemColors.Desktop;
             }
+        }
+
+        private void toggleButton3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toggleButton6_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
