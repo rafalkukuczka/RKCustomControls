@@ -235,15 +235,7 @@ namespace RKCustomControls
             return path;
         }
 
-#if DEBUG
-        [DllImport("user32.dll")]
-        static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
 
-        void LogGdi(string tag)
-        {
-            int gdi = GetGuiResources(Process.GetCurrentProcess().Handle, 0);
-            Debug.WriteLine($"{tag}: GDI={gdi}");
-        }
     }
 #endif
 }
