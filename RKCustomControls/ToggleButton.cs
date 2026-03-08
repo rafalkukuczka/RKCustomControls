@@ -12,7 +12,7 @@ namespace RKCustomControls
     [Designer("RKCustomControls.Designers.ToggleButtonDesigner, RKCustomControls.Designers")]
     public class ToggleButton : CheckBox, ISupportInitialize
     {
-        //Fields
+        // Colors
         private Color onBackColor = Color.MediumSlateBlue;
         private Color onToggleColor = Color.WhiteSmoke;
         private Color offBackColor = Color.Gray;
@@ -20,151 +20,180 @@ namespace RKCustomControls
         private Color disableBackColor = Color.DarkGray;
         private Color disableToggleColor = Color.LightGray;
 
-        //ctors
+        // Brushes
+        private SolidBrush onBackBrush;
+        private SolidBrush onToggleBrush;
+        private SolidBrush offBackBrush;
+        private SolidBrush offToggleBrush;
+        private SolidBrush disableBackBrush;
+        private SolidBrush disableToggleBrush;
+
+        // Cached GraphicsPath
+        private GraphicsPath backgroundPath;
+
         public ToggleButton()
         {
-            this.MinimumSize = new Size(45, 22);
-            this.MaximumSize = new Size(1000, 44);
+            MinimumSize = new Size(45, 22);
+            MaximumSize = new Size(1000, 44);
 
-            this.SetStyle(ControlStyles.UserPaint |
-                  ControlStyles.AllPaintingInWmPaint |
-                  ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.UserPaint |
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.OptimizedDoubleBuffer, true);
+
+            InitializeBrushes();
+            CreateBackgroundPath();
         }
 
-        //props
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Color OnBackColor { get { return onBackColor; } set { onBackColor = value; Invalidate(); } }
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Color OnToggleColor { get => onToggleColor; set { onToggleColor = value; Invalidate(); } }
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Color OffBackColor { get => offBackColor; set { offBackColor = value; Invalidate(); } }
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Color OffToggleColor { get => offToggleColor; set { offToggleColor = value; Invalidate(); } }
+        private void InitializeBrushes()
+        {
+            onBackBrush = new SolidBrush(onBackColor);
+            onToggleBrush = new SolidBrush(onToggleColor);
+            offBackBrush = new SolidBrush(offBackColor);
+            offToggleBrush = new SolidBrush(offToggleColor);
+            disableBackBrush = new SolidBrush(disableBackColor);
+            disableToggleBrush = new SolidBrush(disableToggleColor);
+        }
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Color DisableBackColor { get => disableBackColor; set => disableBackColor = value; }
+        // Properties
+        public Color OnBackColor
+        {
+            get => onBackColor;
+            set
+            {
+                onBackColor = value;
+                onBackBrush.Color = value;
+                Invalidate();
+            }
+        }
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public Color DisableToggleColor { get => disableToggleColor; set => disableToggleColor = value; }
+        public Color OnToggleColor
+        {
+            get => onToggleColor;
+            set
+            {
+                onToggleColor = value;
+                onToggleBrush.Color = value;
+                Invalidate();
+            }
+        }
 
-        //props to be desibled in designer
+        public Color OffBackColor
+        {
+            get => offBackColor;
+            set
+            {
+                offBackColor = value;
+                offBackBrush.Color = value;
+                Invalidate();
+            }
+        }
+
+        public Color OffToggleColor
+        {
+            get => offToggleColor;
+            set
+            {
+                offToggleColor = value;
+                offToggleBrush.Color = value;
+                Invalidate();
+            }
+        }
+
+        public Color DisableBackColor
+        {
+            get => disableBackColor;
+            set
+            {
+                disableBackColor = value;
+                disableBackBrush.Color = value;
+                Invalidate();
+            }
+        }
+
+        public Color DisableToggleColor
+        {
+            get => disableToggleColor;
+            set
+            {
+                disableToggleColor = value;
+                disableToggleBrush.Color = value;
+                Invalidate();
+            }
+        }
+
+        // Disable text
         [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Text { get => base.Text; private set { } }
 
         [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new ContentAlignment TextAlign { get => base.TextAlign; private set { } }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new TextImageRelation TextImageRelation { get => base.TextImageRelation; private set { } }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new FlatStyle FlatStyle { get => base.FlatStyle; private set { base.FlatStyle = value; } }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new FlatButtonAppearance FlatAppearance { get => base.FlatAppearance; private set { } }
-
-
-        //Interfaces
-        public void BeginInit()
-        {
-
-        }
+        // ISupportInitialize
+        public void BeginInit() { }
 
         public void EndInit()
         {
             Invalidate();
         }
 
-
-        //Overrides
-        protected override void OnHandleCreated(EventArgs e)
+        protected override void OnSizeChanged(EventArgs e)
         {
-            base.OnHandleCreated(e);
-            if (this.DesignMode)
-            {
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-                if (changeService != null)
-                {
-                    changeService.ComponentChanged -= OnComponentChanged; // Unikamy duplikacji
-                    changeService.ComponentChanged += OnComponentChanged;
-                }
-            }
+            base.OnSizeChanged(e);
+
+            CreateBackgroundPath();
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
+        private void CreateBackgroundPath()
         {
-            if (e.Component == this && e.Member?.Name == "Enabled")
-            {
-                this.Invalidate();
-            }
+            backgroundPath?.Dispose();
+
+            int archSize = Height - 1;
+
+            Rectangle rectLeft = new Rectangle(0, 0, archSize, archSize);
+            Rectangle rectRight = new Rectangle(Width - archSize - 2, 0, archSize, archSize);
+
+            backgroundPath = new GraphicsPath();
+
+            backgroundPath.StartFigure();
+            backgroundPath.AddArc(rectLeft, 90, 180);
+            backgroundPath.AddArc(rectRight, 270, 180);
+            backgroundPath.CloseFigure();
         }
 
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-        protected override void OnPaint(PaintEventArgs pevent)
+        protected override void OnPaint(PaintEventArgs e)
         {
 #if DEBUG
             LogGdi("OnPaint-BEGIN");
 #endif
 
-            int toggleSize = this.Height - 5;
-            pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            pevent.Graphics.Clear(this.Parent.BackColor);
+            int toggleSize = Height - 5;
 
-            if (this.DesignMode)
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.Clear(Parent.BackColor);
+
+            if (!Enabled)
             {
-                bool actualEnabled = true;
+                g.FillPath(disableBackBrush, backgroundPath);
 
-                PropertyDescriptor pd = TypeDescriptor.GetProperties(this)["Enabled"];
-                if (pd != null)
-                {
-                    actualEnabled = (bool)pd.GetValue(this);
-                }
+                RectangleF rect = Checked
+                    ? new RectangleF(Width - Height, 2, toggleSize, toggleSize)
+                    : new RectangleF(2, 2, toggleSize, toggleSize);
 
-                if (!actualEnabled)
-                {
-                    if (this.Checked)
-                    {
-                        DrawDisabledStateChecked(pevent, toggleSize);
-                    }
-                    else
-                    {
-                        DrawDisabledStateUnchecked(pevent, toggleSize);
-                    }
-                }
-                else
-                {
-                    if (this.Checked)
-                    {
-                        DrawCheckedState(pevent, toggleSize);
-                    }
-                    else
-                    {
-                        DrawUncheckedState(pevent, toggleSize);
-                    }
-                }
+                g.FillEllipse(disableToggleBrush, rect);
+
+                return;
+            }
+
+            if (Checked)
+            {
+                g.FillPath(onBackBrush, backgroundPath);
+                g.FillEllipse(onToggleBrush, new RectangleF(Width - Height, 2, toggleSize, toggleSize));
             }
             else
             {
-                if (!this.Enabled)
-                {
-                    DrawDisabledStateChecked(pevent, toggleSize);
-                }
-                else
-                {
-                    if (this.Checked)
-                    {
-                        DrawCheckedState(pevent, toggleSize);
-                    }
-                    else
-                    {
-                        DrawUncheckedState(pevent, toggleSize);
-                    }
-                }
+                g.FillPath(offBackBrush, backgroundPath);
+                g.FillEllipse(offToggleBrush, new RectangleF(2, 2, toggleSize, toggleSize));
             }
 
 #if DEBUG
@@ -172,70 +201,32 @@ namespace RKCustomControls
 #endif
         }
 
-        //Utils
-
-        private void DrawDisabledStateChecked(PaintEventArgs pevent, int toggleSize)
+        protected override void Dispose(bool disposing)
         {
-            using (var disabledToggleBrush = new SolidBrush(disableToggleColor))
-            using (var disabledBackBrush = new SolidBrush(disableBackColor))
-            using (var backgroundPath = GetBackground())
+            if (disposing)
             {
-                pevent.Graphics.FillPath(disabledBackBrush, backgroundPath);
-                pevent.Graphics.FillEllipse(disabledToggleBrush, new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize)); 
+                onBackBrush?.Dispose();
+                onToggleBrush?.Dispose();
+                offBackBrush?.Dispose();
+                offToggleBrush?.Dispose();
+                disableBackBrush?.Dispose();
+                disableToggleBrush?.Dispose();
+                backgroundPath?.Dispose();
             }
+
+            base.Dispose(disposing);
         }
 
-        private void DrawDisabledStateUnchecked(PaintEventArgs pevent, int toggleSize)
+#if DEBUG
+        [DllImport("user32.dll")]
+        static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
+
+        void LogGdi(string tag)
         {
-            using (var disabledBackBrush = new SolidBrush(disableBackColor))
-            using (var disabledToggleBrush = new SolidBrush(disableToggleColor))
-            using (var backgroundPath = GetBackground())
-            {
-                pevent.Graphics.FillPath(disabledBackBrush, backgroundPath);
-                pevent.Graphics.FillEllipse(disabledToggleBrush, new RectangleF(2, 2, toggleSize, toggleSize));
-            }
+            int gdi = GetGuiResources(Process.GetCurrentProcess().Handle, 0);
+            Debug.WriteLine($"{tag}: GDI={gdi}");
         }
-
-        private void DrawUncheckedState(PaintEventArgs pevent, int toggleSize)
-        {
-            using (var offBackBrush = new SolidBrush(offBackColor))
-            using (var offToggleBrush = new SolidBrush(offToggleColor))
-            using (var backgroundPath = GetBackground())
-            {
-                pevent.Graphics.FillPath(offBackBrush, backgroundPath);
-                pevent.Graphics.FillEllipse(offToggleBrush, new RectangleF(2, 2, toggleSize, toggleSize));
-            }
-        }
-
-        private void DrawCheckedState(PaintEventArgs pevent, int toggleSize)
-        {
-            using (var onBackBrush = new SolidBrush(onBackColor))
-            using (var onToggleBrush = new SolidBrush(onToggleColor))
-            using (var backgroundPath = GetBackground())
-            {
-                pevent.Graphics.FillPath(onBackBrush, backgroundPath);
-                pevent.Graphics.FillEllipse(onToggleBrush, new RectangleF(this.Width - this.Height, 2, toggleSize, toggleSize));
-            }
-        }
-
-        private GraphicsPath GetBackground()
-        {
-            var archSize = this.Height - 1;
-            var rectLeft = new Rectangle(0, 0, archSize, archSize);
-            var rectRight = new Rectangle(this.Width - archSize - 2, 0, archSize, archSize);
-
-            var path = new GraphicsPath();
-            path.StartFigure();
-
-            path.AddArc(rectLeft, 90, 180);
-            path.AddArc(rectRight, 270, 180);
-
-            path.CloseFigure();
-
-            return path;
-        }
-
-
     }
 #endif
+
 }

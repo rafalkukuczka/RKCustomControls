@@ -81,8 +81,8 @@
             this.toggleButton1.MaximumSize = new System.Drawing.Size(1000, 22);
             this.toggleButton1.MinimumSize = new System.Drawing.Size(45, 22);
             this.toggleButton1.Name = "toggleButton1";
-            this.toggleButton1.OffBackColor = System.Drawing.Color.Gray;
-            this.toggleButton1.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.toggleButton1.OffBackColor = System.Drawing.Color.White;
+            this.toggleButton1.OffToggleColor = System.Drawing.Color.IndianRed;
             this.toggleButton1.OnBackColor = System.Drawing.Color.MediumSlateBlue;
             this.toggleButton1.OnToggleColor = System.Drawing.Color.WhiteSmoke;
             this.toggleButton1.Size = new System.Drawing.Size(142, 22);
